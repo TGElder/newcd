@@ -64,6 +64,7 @@ def delete_all_files(directory):
 
 def ensure_directory_exists(directory):            
     if not exists(directory):
+        print("Creating " + directory)
         makedirs(directory)
             
 def encode_mp3(directory_in, directory_out, tags):
