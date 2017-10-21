@@ -1,5 +1,5 @@
 import configparser
-from os import listdir, remove, devnull, makedirs
+from os import listdir, remove, devnull, makedirs, linesep
 from os.path import join, splitext, exists
 from shutil import copyfile
 import subprocess
@@ -14,12 +14,11 @@ lame_program = config.get("Paths", "lame_program")
 adb_program = config.get("Paths", "adb_program")
 download_root = config.get("Paths", "download_root")
 
-
 stdout = open(devnull, 'wb')
 
 def read_tag(file, tag):
     bytes = subprocess.check_output([metaflac_program, "--show-tag="+tag, file])
-    return bytes.decode('utf-8').split("\r\n")[0].split("=")[1]
+    return bytes.decode('utf-8').split(linesep)[0].split("=")[1]
 
 def expand_flac_directory(artist, album):
     return join(config.get("Paths", "flac_root"), artist, album)
