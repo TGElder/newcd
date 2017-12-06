@@ -39,9 +39,7 @@ def read_tags_from_flac(directory):
             for tag in config.get("Tags", "tags").split(","):
                 tags[tag] = read_tag(join(directory, file), tag)
             out[splitext(file)[0]] = tags
-    
-    print(out)
-    
+        
     return out
     
     
