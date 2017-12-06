@@ -17,8 +17,8 @@ download_root = config.get("Paths", "download_root")
 stdout = open(devnull, 'wb')
 
 def read_tag(file, tag):
-    bytes = subprocess.check_output([metaflac_program, "--show-tag="+tag, file])
-    return bytes.decode('utf-8').split(linesep)[0].split("=")[1]
+    output = subprocess.check_output([metaflac_program, "--show-tag="+tag, file], universal_newlines=True)
+    return output.split("\n")[0].split("=")[1]
 
 def expand_flac_directory(artist, album):
     return join(config.get("Paths", "flac_root"), artist, album)
@@ -39,6 +39,8 @@ def read_tags_from_flac(directory):
             for tag in config.get("Tags", "tags").split(","):
                 tags[tag] = read_tag(join(directory, file), tag)
             out[splitext(file)[0]] = tags
+    
+    print(out)
     
     return out
     
@@ -128,12 +130,12 @@ phone_directory = expand_phone_directory(mp3_type, artist, album)
 
 picture_file = get_picture_file(picture)
 
-ensure_directory_exists(mp3_directory)
-delete_all_files(mp3_directory)
-copy(join(download_root, picture), join(mp3_directory, picture_file))
-delete_files(flac_directory, ".wav")
-decode_flac(flac_directory)
+#ensure_directory_exists(mp3_directory)
+#delete_all_files(mp3_directory)
+#copy(join(download_root, picture), join(mp3_directory, picture_file))
+#delete_files(flac_directory, ".wav")
+#decode_flac(flac_directory)
 tags = read_tags_from_flac(flac_directory)
-encode_mp3(flac_directory, mp3_directory, tags)
-delete_files(flac_directory, ".wav")
-push_all(tags.keys())
+#encode_mp3(flac_directory, mp3_directory, tags)
+#delete_files(flac_directory, ".wav")
+#push_all(tags.keys())
